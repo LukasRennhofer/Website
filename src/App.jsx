@@ -15,16 +15,19 @@ import AboutPage from "./components/about/AboutPage";
 
 export default function App() {
   const pathname = typeof window !== "undefined" ? window.location.pathname : "/";
+  // Normalize path: remove trailing slashes (except root)
+  const normalizedPath = pathname.replace(/\/+$/, "") || "/";
   
   console.log("Current pathname:", pathname);
+  console.log("Normalized pathname:", normalizedPath);
   
-  const isWrapped = pathname === "/wrapped";
-  const isLab = pathname === "/lab" || pathname === "/lab/";
-  const isBlogPost = pathname.startsWith("/lab/") && !isLab;
-  const isImprint = pathname === "/imprint";
-  const isPrivacy = pathname === "/privacy";
-  const isProjects = pathname === "/projects";
-  const isAbout = pathname === "/about";
+  const isWrapped = normalizedPath === "/wrapped";
+  const isLab = normalizedPath === "/lab";
+  const isBlogPost = normalizedPath.startsWith("/lab/");
+  const isImprint = normalizedPath === "/imprint";
+  const isPrivacy = normalizedPath === "/privacy";
+  const isProjects = normalizedPath === "/projects";
+  const isAbout = normalizedPath === "/about";
 
   console.log("Route checks:", { isWrapped, isLab, isBlogPost, isImprint, isPrivacy, isProjects });
 
@@ -33,7 +36,7 @@ export default function App() {
   }
 
   if (isBlogPost) {
-    const slug = pathname.replace("/lab/", "").replace(/\/$/, "");
+    const slug = normalizedPath.replace("/lab/", "");
     console.log("Loading blog post with slug:", slug);
     return <BlogPost slug={slug} />;
   }
