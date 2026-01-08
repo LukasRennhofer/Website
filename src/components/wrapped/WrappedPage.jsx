@@ -7,17 +7,17 @@ import UnderConstruction from '../about/UnderConstruction';
 
 export default function WrappedPage() {
   // Temporarily show under construction page
-  return <UnderConstruction />;
+  // return <UnderConstruction />;
 
-  // return (
-  //   <div className="min-h-screen bg-black text-white">
-  //     <CustomCursor />
-  //     <main>
-  //       <WrappedHero />
-  //       <WrappedStats />
-  //       <WrappedProjects />
-  //     </main>
-  //     <Footer />
-  //   </div>
-  // );
+  return (
+    <div className="min-h-screen bg-black text-white">
+      <CustomCursor />
+      <main>
+        <WrappedHero />
+        <WrappedStats />
+        <WrappedProjects />
+      </main>
+      <Footer />
+    </div>
+  );
 }

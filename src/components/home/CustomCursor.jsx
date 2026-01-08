@@ -4,8 +4,23 @@ export default function CustomCursor() {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [outlinePosition, setOutlinePosition] = useState({ x: 0, y: 0 });
   const [isVisible, setIsVisible] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
+    // Check if device is mobile
+    const checkMobile = () => {
+      const mobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) 
+        || ('ontouchstart' in window) 
+        || (navigator.maxTouchPoints > 0);
+      setIsMobile(mobile);
+    };
+    
+    checkMobile();
+  }, []);
+
+  useEffect(() => {
+    // Don't set up cursor listeners on mobile
+    if (isMobile) return;
     const handleMouseMove = (e) => {
       setPosition({ x: e.clientX, y: e.clientY });
       setTimeout(() => {
@@ -25,9 +40,10 @@ export default function CustomCursor() {
       window.removeEventListener('mouseenter', handleMouseEnter);
       window.removeEventListener('mouseleave', handleMouseLeave);
     };
-  }, []);
+  }, [isMobile]);
 
-  if (!isVisible) return null;
+  // Don't render cursor on mobile devices
+  if (isMobile || !isVisible) return null;
 
   return (
     <>
