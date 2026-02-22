@@ -35,8 +35,14 @@ export default function VideoHero() {
               src="/assets/img/hero.png" 
               alt="Hero" 
               className="w-full h-full object-cover"
+              loading="eager"
+              decoding="async"
+              fetchpriority="high"
+              width="1920"
+              height="1080"
               style={{
                 transform: `scale(${1 + scrollY * 0.0003})`,
+                willChange: "transform"
               }}
             />
             <div 
