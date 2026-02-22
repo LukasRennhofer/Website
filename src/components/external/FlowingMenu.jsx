@@ -10,7 +10,8 @@ function FlowingMenu({
   bgColor = '#060010',
   marqueeBgColor = '#fff',
   marqueeTextColor = '#060010',
-  borderColor = '#fff'
+  borderColor = '#fff',
+  onItemClick
 }) {
   return (
     <div className="menu-wrap" style={{ backgroundColor: bgColor }}>
@@ -24,6 +25,7 @@ function FlowingMenu({
             marqueeBgColor={marqueeBgColor}
             marqueeTextColor={marqueeTextColor}
             borderColor={borderColor}
+            onItemClick={onItemClick}
           />
         ))}
       </nav>
@@ -31,7 +33,7 @@ function FlowingMenu({
   );
 }
 
-function MenuItem({ link, text, image, speed, textColor, marqueeBgColor, marqueeTextColor, borderColor }) {
+function MenuItem({ link, text, image, speed, textColor, marqueeBgColor, marqueeTextColor, borderColor, onItemClick }) {
   const itemRef = useRef(null);
   const marqueeRef = useRef(null);
   const marqueeInnerRef = useRef(null);
@@ -63,9 +65,18 @@ function MenuItem({ link, text, image, speed, textColor, marqueeBgColor, marquee
       const contentWidth = marqueeContent.offsetWidth;
       const viewportWidth = window.innerWidth;
 
+      if (!contentWidth || !Number.isFinite(contentWidth)) {
+        setRepetitions(4);
+        return;
+      }
+
       // Calculate how many copies we need to fill viewport + extra for seamless loop
       // We need at least 2, but calculate based on content vs viewport
       const needed = Math.ceil(viewportWidth / contentWidth) + 2;
+      if (!Number.isFinite(needed) || needed <= 0) {
+        setRepetitions(4);
+        return;
+      }
       setRepetitions(Math.max(4, needed));
     };
 
@@ -140,6 +151,7 @@ function MenuItem({ link, text, image, speed, textColor, marqueeBgColor, marquee
       <a
         className="menu__item-link"
         href={link}
+        onClick={onItemClick}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         style={{ color: textColor }}

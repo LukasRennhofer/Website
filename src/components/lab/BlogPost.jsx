@@ -6,6 +6,7 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import CustomCursor from "../home/CustomCursor";
 import Footer from "../home/Footer";
+import Header from "../home/Header";
 
 export default function BlogPost({ slug }) {
   const [post, setPost] = useState(null);
@@ -45,7 +46,7 @@ export default function BlogPost({ slug }) {
         <CustomCursor />
         <div className="text-center">
           <h1 className="text-4xl font-bold mb-4">Post Not Found</h1>
-          <a href="/lab" className="text-white/70 hover:text-white">← Back to Lab</a>
+          <a href="/blog" className="text-white/70 hover:text-white">← Back to Blog</a>
         </div>
       </div>
     );
@@ -54,25 +55,11 @@ export default function BlogPost({ slug }) {
   return (
     <div className="min-h-screen bg-black text-white">
       <CustomCursor />
-      
-      {/* Header - Apple-style minimal nav */}
-      <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-2xl bg-black/50 border-b border-white/[0.08]">
-        <div className="max-w-5xl mx-auto px-6 sm:px-8 lg:px-12 py-4">
-          <a 
-            href="/lab" 
-            className="inline-flex items-center gap-2 text-[13px] font-medium text-white/50 hover:text-white transition-all duration-300 group"
-          >
-            <svg className="w-4 h-4 transition-transform duration-300 group-hover:-translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-            Lab
-          </a>
-        </div>
-      </header>
+      <Header />
 
       {/* Hero - Apple-style spacious header */}
-      <section className="pt-32 sm:pt-40 pb-16 sm:pb-20 px-6 sm:px-8 lg:px-12">
-        <div className="max-w-4xl mx-auto">
+      <section className="pt-36 sm:pt-44 pb-20 sm:pb-28 px-6 sm:px-8 lg:px-12">
+        <div className="max-w-6xl mx-auto">
           {/* Metadata */}
           <div className="flex items-center gap-3 mb-8 opacity-0 animate-[fadeIn_0.6s_ease-out_0.2s_forwards]">
             <span className="inline-flex items-center px-3 py-1 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 text-[11px] font-medium uppercase tracking-[0.15em] text-white/60">
@@ -84,13 +71,13 @@ export default function BlogPost({ slug }) {
           </div>
 
           {/* Title - Large, bold Apple typography */}
-          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.05] mb-10 opacity-0 animate-[fadeIn_0.8s_ease-out_0.4s_forwards] bg-gradient-to-b from-white via-white to-white/60 bg-clip-text text-transparent">
+          <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-7xl font-bold tracking-tight leading-[1.05] mb-10 opacity-0 animate-[fadeIn_0.8s_ease-out_0.4s_forwards] bg-gradient-to-b from-white via-white to-white/60 bg-clip-text text-transparent">
             {post.metadata.title}
           </h1>
 
           {/* Description if exists */}
           {post.metadata.description && (
-            <p className="text-xl sm:text-2xl text-white/50 leading-relaxed mb-12 max-w-3xl opacity-0 animate-[fadeIn_0.8s_ease-out_0.6s_forwards]">
+            <p className="text-2xl sm:text-3xl lg:text-4xl text-white/50 leading-relaxed mb-14 max-w-4xl opacity-0 animate-[fadeIn_0.8s_ease-out_0.6s_forwards]">
               {post.metadata.description}
             </p>
           )}
@@ -99,7 +86,7 @@ export default function BlogPost({ slug }) {
           {post.metadata.image && (
             <div className="relative opacity-0 animate-[fadeIn_1s_ease-out_0.8s_forwards]">
               <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 via-purple-500/10 to-pink-500/20 blur-3xl opacity-30" />
-              <div className="relative aspect-video rounded-2xl overflow-hidden border border-white/10 shadow-2xl shadow-black/50">
+              <div className="relative w-full aspect-[16/9] max-h-[520px] rounded-2xl overflow-hidden border border-white/10 shadow-2xl shadow-black/50">
                 <img 
                   src={post.metadata.image} 
                   alt={post.metadata.title}

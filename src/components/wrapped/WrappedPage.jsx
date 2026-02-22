@@ -1,8 +1,8 @@
 import WrappedHero from "./WrappedHero";
-import WrappedStats from "./WrappedStats";
 import WrappedProjects from "./WrappedProjects";
 import Footer from "../home/Footer";
 import CustomCursor from "../home/CustomCursor";
+import Header from "../home/Header";
 import UnderConstruction from '../about/UnderConstruction';
 
 export default function WrappedPage() {
@@ -12,9 +12,9 @@ export default function WrappedPage() {
   return (
     <div className="min-h-screen bg-black text-white">
       <CustomCursor />
+      <Header />
       <main>
         <WrappedHero />
-        <WrappedStats />
         <WrappedProjects />
       </main>
       <Footer />

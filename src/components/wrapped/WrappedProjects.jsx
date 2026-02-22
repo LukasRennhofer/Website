@@ -1,79 +1,151 @@
-const highlights = [
+import { useEffect, useRef, useState } from "react";
+
+const experiences = [
   {
-    title: "Vantor Engine v2",
-    summary: "Rebuilt the core renderer, added GPU-driven culling, and shipped a modular pipeline.",
-    description: "A complete rewrite of the rendering system from the ground up. Implemented advanced culling algorithms, optimized vertex buffers, and created a plugin-based architecture for custom shaders. The new engine handles 10x more geometry without breaking a sweat.",
-    role: "Lead + Systems",
-    image: "https://picsum.photos/600/400?random=31"
+    text: "At the beginning of 2025, I returned to Computer Graphics and started my personal dream project — a Game Engine Kernel designed to be so minimal that anything can be built on top of it. The core idea is to keep the engine extremely small and extend it through so-called VNodes, modular components that directly manipulate the kernel and engine behaviour. With these building blocks, it should be possible to create custom game engines or graphics software tailored to specific needs.",
+    image: "/assets/img/wrapped/2025/vantor-logo.png"
   },
   {
-    title: "Realtime Visualizer",
-    summary: "Built an interactive audio-reactive visual system for live performances.",
-    description: "Developed a full-featured audio analysis engine that reacts to live music in real-time. Supports multiple visualization modes, custom color palettes, and synchronizes with stage lighting. Used in 4 professional live shows with 1000+ attendees each.",
-    role: "Design + Graphics",
-    image: "https://picsum.photos/600/400?random=32"
+    text: "After many attempts to get my first engine demos running and properly documented, I felt like I needed a break. Snowy weather, hot tea, and a relaxed coding session with a friend sounded like exactly the right thing — and I wanted to actually finish something within a short time.",
+    image: "/assets/img/wrapped/2025/vantor-screenshot.png"
   },
   {
-    title: "Dev Toolchain",
-    summary: "CLI + task runner to standardize builds, lint, and previews across projects.",
-    description: "Created an integrated development environment focused on DX. Single command to build, lint, run tests, and deploy. Integrated with GitHub Actions for CI/CD. Reduced onboarding time by 80% for new team members.",
-    role: "DX + Infra",
-    image: "https://picsum.photos/600/400?random=33"
+    text: (
+      <>
+        So my best friend Moritz Rottensteiner and I participated in the{" "}
+        <a
+          href="https://itch.io/jam/1-bit-jam-5"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-white underline underline-offset-4 hover:text-white/90 transition-colors"
+        >
+          5th 1-Bit Game Jam
+        </a>
+        . We quickly set up a C++ project using Raylib, and the theme turned out to be Winter.
+        Over the course of a week we built a small platformer about a wanderer exploring a large
+        ancient cave and solving puzzles. We called the game FrozenCore. Moritz spent countless
+        hours creating the pixel art while I focused on programming, and a new friend we met during
+        the jam, Tim Kulig, composed the music. In the end we reached 153rd place out of 206 entries,
+        which was a solid result for our first game jam.
+      </>
+    ),
+    image: "/assets/img/wrapped/2025/frozencore.png"
+  },
+  {
+    text: "Around that time many of my classmates were applying for summer internships at small companies, but I felt that applying in 9th grade would not give me the chance to gain meaningful experience yet. Instead, I started looking for opportunities in open source projects. Since I am especially interested in graphics programming, Blender seemed like the perfect choice. The main question was how to actually get involved. My solution was simple: I wrote an email describing my projects and my interest in working on the real-time renderer EEVEE. Only a few hours later I received a reply from the CEO himself. Ton Roosendaal quickly connected me with the appropriate module maintainer, and during the summer months I was able to fix several bugs. These contributions were eventually shipped with the 5.0 release of the project.",
+    image: "/assets/img/wrapped/2025/email.png"
+  },
+  {
+    text: "When the second year of high school started, I was excited to join our school's robotics club. The club has won multiple Botball world championships, which made me even more motivated to start my own journey there. Together with several classmates, I helped lead the team TRACER. As preparation for the Botball European Open Championship, we participated in the local comp-AIR competition. We finished in second place overall, and I received the Best Code Award.",
+    image: "/assets/img/wrapped/2025/tracer-bot.webp"
+  },
+  {
+    text: "Now I am working on this website to reflect my journey and experiences — a journey that is not only about computer science, but about real progress. Even as AI becomes more important, I am still here writing this blog and building things myself. I am already looking forward to the next wrapped of my developer life in 2026.",
+    image: "https://picsum.photos/900/700?random=47"
   }
 ];
 
 export default function WrappedProjects() {
-  return (
-    <section className="py-24 sm:py-32 lg:py-40 px-4 sm:px-6 lg:px-12">
-      <div className="max-w-7xl mx-auto">
-        <div className="mb-20 sm:mb-24 text-center">
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-5 tracking-tight bg-gradient-to-b from-white to-white/70 bg-clip-text text-transparent">Highlights</h2>
-          <p className="text-lg sm:text-xl text-white/40 tracking-[-0.01em]">The work that moved the needle in 2025</p>
-        </div>
+  const [progressMap, setProgressMap] = useState({});
+  const sectionRefs = useRef([]);
 
-        <div className="space-y-12 sm:space-y-16 lg:space-y-20">
-          {highlights.map((project, idx) => (
+  useEffect(() => {
+    let rafId = null;
+
+    const updateProgress = () => {
+      rafId = null;
+      const next = {};
+      sectionRefs.current.forEach((el, index) => {
+        if (!el) return;
+        const rect = el.getBoundingClientRect();
+        const viewport = window.innerHeight || 0;
+        const viewportCenter = viewport / 2;
+        const elementCenter = rect.top + rect.height / 2;
+        const distance = Math.abs(elementCenter - viewportCenter);
+        const maxDistance = Math.max(viewport * 0.55, 1);
+        const raw = 1 - distance / maxDistance;
+        const clamped = Math.min(1, Math.max(0, raw));
+        next[index] = clamped;
+      });
+      setProgressMap(next);
+    };
+
+    const onScroll = () => {
+      if (rafId) return;
+      rafId = window.requestAnimationFrame(updateProgress);
+    };
+
+    updateProgress();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      if (rafId) window.cancelAnimationFrame(rafId);
+    };
+  }, []);
+
+  return (
+    <section className="py-24 sm:py-32 lg:py-40 px-2 sm:px-4 lg:px-8">
+      <div className="max-w-7xl mx-auto space-y-16 sm:space-y-20 lg:space-y-24">
+        {experiences.map((experience, idx) => {
+          const isLast = idx === experiences.length - 1;
+
+          const progress = progressMap[idx] ?? 0;
+          const eased = Math.min(1, Math.max(0, progress * progress * (3 - 2 * progress)));
+          const snapped = eased > 0.95 ? 1 : eased;
+          const opacity = 0.2 + 0.8 * snapped;
+          const translateY = 24 * (1 - snapped);
+            const blur = 0;
+
+          if (isLast) {
+            return (
+              <div
+                key={idx}
+                ref={el => sectionRefs.current[idx] = el}
+                className="max-w-3xl mx-auto text-center"
+                style={{
+                  opacity,
+                  transform: `translateY(${translateY}px)`,
+                    filter: "none",
+                  transition: "opacity 0.3s ease-out, transform 0.3s ease-out, filter 0.3s ease-out"
+                }}
+              >
+                <p className="text-xl sm:text-2xl lg:text-3xl text-white/90 leading-[1.75] tracking-[-0.01em]">
+                  {experience.text}
+                </p>
+              </div>
+            );
+          }
+
+          return (
             <div
-              key={project.title}
-              className="group"
+              key={idx}
+              ref={el => sectionRefs.current[idx] = el}
+              className="grid lg:grid-cols-2 gap-10 sm:gap-14 lg:gap-16 items-center"
               style={{
-                opacity: 0,
-                animation: `fadeIn 0.8s ease-out ${0.15 * idx}s forwards`
+                opacity,
+                transform: `translateY(${translateY}px)`,
+                  filter: "none",
+                transition: "opacity 0.3s ease-out, transform 0.3s ease-out, filter 0.3s ease-out"
               }}
             >
-              <div className="relative overflow-hidden rounded-2xl border border-white/[0.08] bg-gradient-to-br from-white/[0.03] to-white/[0.01] hover:border-white/[0.15] hover:from-white/[0.05] hover:to-white/[0.02] transition-all duration-500">
-                <div className="grid lg:grid-cols-2 gap-0">
-                  {/* Image */}
-                  <div className="relative aspect-video lg:aspect-auto overflow-hidden order-2 lg:order-1">
-                    <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-transparent to-pink-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10" />
-                    <img
-                      src={project.image}
-                      alt={project.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                    />
-                  </div>
-
-                  {/* Content */}
-                  <div className="p-8 sm:p-10 lg:p-12 flex flex-col justify-center order-1 lg:order-2">
-                    <h3 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight leading-tight mb-5 text-white/95 group-hover:text-white transition-colors duration-300">
-                      {project.title}
-                    </h3>
-                    <p className="text-lg sm:text-xl text-white/60 leading-relaxed mb-5">
-                      {project.summary}
-                    </p>
-                    <p className="text-[15px] sm:text-[17px] text-white/45 leading-relaxed mb-8">
-                      {project.description}
-                    </p>
-                    <div>
-                      <p className="text-[11px] uppercase tracking-[0.15em] text-white/30 mb-2 font-medium">Role</p>
-                      <p className="text-base text-white/70 font-medium">{project.role}</p>
-                    </div>
-                  </div>
-                </div>
+              <div className={idx % 2 === 0 ? "order-2 lg:order-2" : "order-2 lg:order-1"}>
+                <img
+                  src={experience.image}
+                  alt="Wrapped 2025 highlight"
+                  className="w-full aspect-[4/3] object-cover rounded-2xl border border-white/[0.08]"
+                />
+              </div>
+              <div className={idx % 2 === 0 ? "order-1 lg:order-1" : "order-1 lg:order-2"}>
+                <p className="text-lg sm:text-xl lg:text-2xl text-white/80 leading-[1.75] tracking-[-0.01em]">
+                  {experience.text}
+                </p>
               </div>
             </div>
-          ))}
-        </div>
+          );
+        })}
       </div>
     </section>
   );

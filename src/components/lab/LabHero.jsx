@@ -1,4 +1,3 @@
-import Prism from "../external/Prism";
 import { useEffect, useState } from "react";
 
 export default function LabHero() {
@@ -11,26 +10,25 @@ export default function LabHero() {
   }, []);
 
   return (
-    <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
-      <div className="absolute inset-0 z-0">
-        <Prism
-          animationType="rotate"
-          timeScale={0.5}
-          height={3.5}
-          baseWidth={5.5}
-          scale={3.6}
-          hueShift={0}
-          colorFrequency={1}
-          noise={0.5}
-          glow={1}
-        />
+    <section className="relative min-h-[100vh] flex items-center justify-center overflow-hidden">
+      <div className="absolute inset-0 z-0 px-1 sm:px-2 lg:px-3 py-3 sm:py-4">
+        <div className="relative h-full w-full rounded-[18px] sm:rounded-[24px] overflow-hidden border border-white/10">
+          <video
+            className="h-full w-full object-cover"
+            src="/showcase.mp4"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/60 to-black/85" />
+        </div>
       </div>
 
-      <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black z-[1]" />
-
-      <div 
+      <div
         className="relative z-10 max-w-6xl mx-auto px-6 sm:px-8 lg:px-12 text-center"
-        style={{ transform: `translateY(${scrollY * 0.3}px)` }}
+        style={{ transform: `translateY(${scrollY * 0.2}px)` }}
       >
         <div className="mb-8 opacity-0 animate-[fadeIn_0.6s_ease-out_0.2s_forwards]">
           <span className="inline-block text-[11px] sm:text-[13px] font-medium uppercase tracking-[0.2em] text-white/40">
@@ -39,11 +37,11 @@ export default function LabHero() {
         </div>
         
         <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold tracking-[-0.02em] mb-10 sm:mb-12 opacity-0 animate-[fadeIn_0.8s_ease-out_0.4s_forwards] bg-gradient-to-b from-white via-white to-white/50 bg-clip-text text-transparent leading-[0.95]">
-          The Lab
+          THE BLOG
         </h1>
         
         <p className="text-xl sm:text-2xl md:text-3xl font-normal text-white/50 max-w-4xl mx-auto leading-[1.4] mb-16 opacity-0 animate-[fadeIn_0.8s_ease-out_0.6s_forwards] tracking-[-0.01em]">
-          Experiments, thoughts, and ideas from the workshop. Where I explore new technologies, document learnings, and share what I'm building.
+          Stories, experiments, and ideas from the workshop. Where I explore new technologies, document learnings, and share what I experienced.
         </p>
 
         <div className="opacity-0 animate-[fadeIn_0.8s_ease-out_0.8s_forwards]">

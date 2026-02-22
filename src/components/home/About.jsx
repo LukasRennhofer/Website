@@ -46,7 +46,7 @@ export default function About() {
               For me, writing software is less about shipping quickly and more about understanding deeply and building things that hold up over time.
             </p>
             <div className="pt-3 sm:pt-4">
-              <a href="/lab" className="inline-flex items-center gap-2 text-[13px] sm:text-[14px] font-medium text-white/60 hover:text-white transition-colors duration-300 group">
+              <a href="/projects" className="inline-flex items-center gap-2 text-[13px] sm:text-[14px] font-medium text-white/60 hover:text-white transition-colors duration-300 group">
                 Explore my work
                 <svg className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />

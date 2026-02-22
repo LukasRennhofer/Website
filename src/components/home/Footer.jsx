@@ -27,7 +27,7 @@ export default function Footer() {
             <ul className="space-y-3">
               <li>
                 <a
-                  href="https://github.com/lukasrennhofer"
+                  href="https://github.com/LukasRennhofer"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-base font-light text-white/80 hover:text-white transition-colors"
@@ -37,7 +37,7 @@ export default function Footer() {
               </li>
               <li>
                 <a
-                  href="https://linkedin.com/in/lukasrennhofer"
+                  href="https://www.linkedin.com/in/lukas-rennhofer-7049742b5/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-base font-light text-white/80 hover:text-white transition-colors"
@@ -47,41 +47,17 @@ export default function Footer() {
               </li>
               <li>
                 <a
-                  href="https://twitter.com/lukasrennhofer"
+                  href="https://x.com/LRDevOfficial"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-base font-light text-white/80 hover:text-white transition-colors"
                 >
-                  Twitter
+                  X / Twitter
                 </a>
               </li>
             </ul>
           </div>
 
-          {/* Legal */}
-          <div>
-            <h5 className="text-sm font-light text-white/40 mb-4 uppercase tracking-wider">
-              Legal
-            </h5>
-            <ul className="space-y-3">
-              <li>
-                <a
-                  href="/imprint"
-                  className="text-base font-light text-white/80 hover:text-white transition-colors"
-                >
-                  Imprint
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/privacy"
-                  className="text-base font-light text-white/80 hover:text-white transition-colors"
-                >
-                  Privacy Policy
-                </a>
-              </li>
-            </ul>
-          </div>
         </div>
 
         {/* Bottom bar */}

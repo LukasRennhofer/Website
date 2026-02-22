@@ -1,64 +1,61 @@
+import { Suspense, lazy } from "react";
 import Header from "./components/home/Header";
 import VideoHero from "./components/home/VideoHero";
 import Quote from "./components/home/Quote";
-import About from "./components/home/About";
-import Portal from "./components/home/Portal";
 import Footer from "./components/home/Footer";
 import CustomCursor from "./components/home/CustomCursor";
-import WrappedPage from "./components/wrapped/WrappedPage";
-import LabPage from "./components/lab/LabPage";
-import BlogPost from "./components/lab/BlogPost";
-import Imprint from "./components/legal/Imprint";
-import PrivacyPolicy from "./components/legal/PrivacyPolicy";
-import ProjectsPage from "./components/projects/ProjectsPage";
-import AboutPage from "./components/about/AboutPage";
+
+const WrappedPage = lazy(() => import("./components/wrapped/WrappedPage"));
+const LabPage = lazy(() => import("./components/lab/LabPage"));
+const BlogPost = lazy(() => import("./components/lab/BlogPost"));
+const AboutPage = lazy(() => import("./components/about/AboutPage"));
 
 export default function App() {
   const pathname = typeof window !== "undefined" ? window.location.pathname : "/";
   // Normalize path: remove trailing slashes (except root)
   const normalizedPath = pathname.replace(/\/+$/, "") || "/";
   
-  console.log("Current pathname:", pathname);
-  console.log("Normalized pathname:", normalizedPath);
-  
   const isWrapped = normalizedPath === "/wrapped";
-  const isLab = normalizedPath === "/lab";
-  const isBlogPost = normalizedPath.startsWith("/lab/");
-  const isImprint = normalizedPath === "/imprint";
-  const isPrivacy = normalizedPath === "/privacy";
-  const isProjects = normalizedPath === "/projects";
+  const isLab = normalizedPath === "/blog";
+  const isBlogPost =
+    normalizedPath.startsWith("/blog/") || normalizedPath.startsWith("/blog/");
   const isAbout = normalizedPath === "/about";
 
-  console.log("Route checks:", { isWrapped, isLab, isBlogPost, isImprint, isPrivacy, isProjects });
+  const pageFallback = (
+    <div className="min-h-screen bg-black text-white" />
+  );
 
   if (isWrapped) {
-    return <WrappedPage />;
+    return (
+      <Suspense fallback={pageFallback}>
+        <WrappedPage />
+      </Suspense>
+    );
   }
 
   if (isBlogPost) {
-    const slug = normalizedPath.replace("/lab/", "");
-    console.log("Loading blog post with slug:", slug);
-    return <BlogPost slug={slug} />;
+    const slug = normalizedPath.replace(/^\/lab\//, "").replace(/^\/blog\//, "");
+    return (
+      <Suspense fallback={pageFallback}>
+        <BlogPost slug={slug} />
+      </Suspense>
+    );
   }
 
   if (isLab) {
-    return <LabPage />;
-  }
-
-  if (isImprint) {
-    return <Imprint />;
-  }
-
-  if (isPrivacy) {
-    return <PrivacyPolicy />;
-  }
-
-  if (isProjects) {
-    return <ProjectsPage />;
+    return (
+      <Suspense fallback={pageFallback}>
+        <LabPage />
+      </Suspense>
+    );
   }
 
   if (isAbout) {
-    return <AboutPage />;
+    return (
+      <Suspense fallback={pageFallback}>
+        <AboutPage />
+      </Suspense>
+    );
   }
 
   return (
@@ -68,8 +65,6 @@ export default function App() {
       <main>
         <VideoHero />
         <Quote />
-        <About />
-        <Portal />
       </main>
       <Footer />
     </div>
